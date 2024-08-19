@@ -11,7 +11,7 @@ import {LuckyGrid} from '@lucky-canvas/react'
 export function LuckyGridPage() {
     // 背景
     const [blocks] = useState([
-        {padding: '10px', background: '#869cfa'}
+        {padding: '40px', background: '#869c11'}
     ])
 
     const [prizes] = useState([
@@ -26,10 +26,10 @@ export function LuckyGridPage() {
     ])
 
     const [buttons] = useState([
-        {x: 1, y: 1, background: "#7f95d1", fonts: [{text: '开始', top: '35%'}]}
+        {x: 1, y: 1, background: "#66ddaa", fonts: [{text: 'Start!', top: '35%'}]}
     ])
 
-    const [defaultStyle] = useState([{background: "#b8c5f2"}])
+    const [defaultStyle] = useState([{background: "#b8aaaa"}])
 
     const myLucky = useRef()
 
@@ -47,7 +47,7 @@ export function LuckyGridPage() {
                 // @ts-ignore
                 myLucky.current.play()
                 setTimeout(() => {
-                    const index = Math.random() * 6 >> 0
+                    const index = Math.random() * 8 >> 0
                     // @ts-ignore
                     myLucky.current.stop(index)
                 }, 2500)
