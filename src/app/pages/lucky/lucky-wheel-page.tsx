@@ -3,33 +3,32 @@
 import React, {useEffect, useRef, useState} from 'react'
 // @ts-ignore
 import {LuckyWheel} from '@lucky-canvas/react'
+
 import {queryRaffleAwardList, randomRaffle} from '@/apis'
 import {RaffleAwardVO} from "@/types/RaffleAwardVO";
 
 export function LuckyWheelPage() {
-
-    const queryParams = new URLSearchParams(window.location.search);
-    const strategyId = Number(queryParams.get('strategyId'));
     const [prizes, setPrizes] = useState([{}])
     const myLucky = useRef()
 
-
     const [blocks] = useState([
-        {padding: '8px', background: '#dd9c14'}
+        {padding: '10px', background: '#869cfa'}
     ])
-
 
     const [buttons] = useState([
-        {radius: '40%', background: '#61457d'},
-        {radius: '35%', background: '#afffaa'},
+        {radius: '40%', background: '#617df2'},
+        {radius: '35%', background: '#afc8ff'},
         {
-            radius: '30%', background: '#66ddaa',
+            radius: '30%', background: '#869cfa',
             pointer: true,
-            fonts: [{text: 'Start!', top: '-10px'}]
+            fonts: [{text: '开始', top: '-10px'}]
         }
     ])
+
     // 查询奖品列表
     const queryRaffleAwardListHandle = async () => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const strategyId = Number(queryParams.get('strategyId'));
         const result = await queryRaffleAwardList(strategyId);
         const {code, info, data} = await result.json();
         if (code != "0000") {
@@ -38,8 +37,10 @@ export function LuckyWheelPage() {
         }
 
         // 创建一个新的奖品数组
+        const colors = ['#FFB74D', '#FFF3E0', '#FFA788', '#FF7043', '#8BC34A']; // 定义四种颜色
+
         const prizes = data.map((award: RaffleAwardVO, index: number) => {
-            const background = index % 2 === 0 ? '#e9e8fe' : '#b8c5f2';
+            const background = colors[index % 5]; // 根据 index % 4 选择对应的颜色
             return {
                 background: background,
                 fonts: [{id: award.awardId, text: award.awardTitle, top: '15px'}]
@@ -52,17 +53,16 @@ export function LuckyWheelPage() {
 
     // 调用随机抽奖
     const randomRaffleHandle = async () => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const strategyId = Number(queryParams.get('strategyId'));
         const result = await randomRaffle(strategyId);
         const {code, info, data} = await result.json();
         if (code != "0000") {
-            window.alert("获取抽奖奖品列表失败 code:" + code + " info:" + info)
+            window.alert("随机抽奖失败 code:" + code + " info:" + info)
             return;
         }
         // 为了方便测试，mock 的接口直接返回 awardIndex 也就是奖品列表中第几个奖品。
-        return data.awardIndex ? data.awardIndex : prizes.findIndex(prize =>
-            //@ts-ignore
-            prize.fonts.some(font => font.id === data.awardId)
-        ) + 1;
+        return data.awardIndex - 1;
     }
 
     useEffect(() => {
@@ -70,12 +70,11 @@ export function LuckyWheelPage() {
         });
     }, [])
 
-
     return <div>
         <LuckyWheel
             ref={myLucky}
-            width="300px"
-            height="300px"
+            width="450px"
+            height="450px"
             blocks={blocks}
             prizes={prizes}
             buttons={buttons}
@@ -92,7 +91,6 @@ export function LuckyWheelPage() {
 
                 }, 2500)
             }}
-
             onEnd={
                 // @ts-ignore
                 prize => {
@@ -102,3 +100,4 @@ export function LuckyWheelPage() {
         />
     </div>
 }
+

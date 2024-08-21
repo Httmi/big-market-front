@@ -58,7 +58,6 @@ export function LuckyGridPage() {
                     alert('恭喜你抽到 ' + prize.fonts[0].text + ' 号奖品')
                 }
             }>
-
         </LuckyGrid>
     </>
 
