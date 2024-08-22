@@ -1,0 +1,1 @@
+docker build -t httmioyui/big-market-front-app:1.0 .
