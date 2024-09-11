@@ -12,7 +12,7 @@ export function LuckyWheelPage() {
     const myLucky = useRef()
 
     const [blocks] = useState([
-        {padding: '10px', background: '#869cfa', imgs: [{src: "https://bugstack.cn/images/system/blog-03.png"}]}
+        {padding: '10px', background: '#869cfa'}
     ])
 
     const [buttons] = useState([
@@ -38,8 +38,10 @@ export function LuckyWheelPage() {
         }
 
         // 创建一个新的奖品数组
+        const colors = ['#FFB74D', '#FFF3E0', '#FFA788', '#FF7043', '#8BC34A']; // 定义四种颜色
+
         const prizes = data.map((award: RaffleAwardVO, index: number) => {
-            const background = index % 2 === 0 ? '#e9e8fe' : '#b8c5f2';
+            const background = colors[index % 5]; // 根据 index % 4 选择对应的颜色
             return {
                 background: background,
                 fonts: [{id: award.awardId, text: award.awardTitle, top: '15px'}]
