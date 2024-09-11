@@ -10,9 +10,9 @@ export default function Home() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100"
-             style={{backgroundImage: "url('/background.svg')", backgroundColor:"#e7305e;"}}>
+             style={{backgroundImage: "url('/background.svg')", backgroundColor:"#88305e;"}}>
             {/* 头部文案 */}
-            <header className="text-7xl font-bold text-center text-gray-800 my-8" style={{color:"white"}}>
+            <header className="text-5xl font-bold text-center text-gray-800 my-8" style={{color:"white"}}>
                 大营销平台 - 抽奖展示
             </header>
 
@@ -21,14 +21,14 @@ export default function Home() {
 
             {/* 中间的两个div元素 */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">
-                <div className="w-full md:w-1/2 p-6 bg-white shadow-lg rounded-lg">
+                <div className="w-full md:w-1/2 p-6 bg-purple-400 shadow-lg rounded-lg border border-red-500">
                     <div className="text-gray-700">
-                        <LuckyWheelPage/>
+                        <LuckyWheelPage />
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 p-6 bg-white shadow-lg rounded-lg">
+                <div className="w-full md:w-1/2 p-6 bg-purple-400 shadow-lg rounded-lg border border-blue-500">
                     <div className="text-gray-700">
-                        <LuckyGridPage/>
+                        <LuckyGridPage />
                     </div>
                 </div>
             </div>
