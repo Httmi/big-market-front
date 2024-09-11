@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from 'react'
 // @ts-ignore
 import {LuckyWheel} from '@lucky-canvas/react'
 
-import {queryRaffleAwardList, randomRaffle} from '@/apis'
+import {queryRaffleAwardList, draw} from '@/apis'
 import {RaffleAwardVO} from "@/types/RaffleAwardVO";
 
 export function LuckyWheelPage() {
@@ -12,7 +12,7 @@ export function LuckyWheelPage() {
     const myLucky = useRef()
 
     const [blocks] = useState([
-        {padding: '10px', background: '#869cfa'}
+        {padding: '10px', background: '#869cfa', imgs: [{src: "https://bugstack.cn/images/system/blog-03.png"}]}
     ])
 
     const [buttons] = useState([
@@ -28,8 +28,9 @@ export function LuckyWheelPage() {
     // 查询奖品列表
     const queryRaffleAwardListHandle = async () => {
         const queryParams = new URLSearchParams(window.location.search);
-        const strategyId = Number(queryParams.get('strategyId'));
-        const result = await queryRaffleAwardList(strategyId);
+        const userId = String(queryParams.get('userId'));
+        const activityId = Number(queryParams.get('activityId'));
+        const result = await queryRaffleAwardList(userId, activityId);
         const {code, info, data} = await result.json();
         if (code != "0000") {
             window.alert("获取抽奖奖品列表失败 code:" + code + " info:" + info)
@@ -37,10 +38,8 @@ export function LuckyWheelPage() {
         }
 
         // 创建一个新的奖品数组
-        const colors = ['#FFB74D', '#FFF3E0', '#FFA788', '#FF7043', '#8BC34A']; // 定义四种颜色
-
         const prizes = data.map((award: RaffleAwardVO, index: number) => {
-            const background = colors[index % 5]; // 根据 index % 4 选择对应的颜色
+            const background = index % 2 === 0 ? '#e9e8fe' : '#b8c5f2';
             return {
                 background: background,
                 fonts: [{id: award.awardId, text: award.awardTitle, top: '15px'}]
@@ -54,8 +53,9 @@ export function LuckyWheelPage() {
     // 调用随机抽奖
     const randomRaffleHandle = async () => {
         const queryParams = new URLSearchParams(window.location.search);
-        const strategyId = Number(queryParams.get('strategyId'));
-        const result = await randomRaffle(strategyId);
+        const userId = String(queryParams.get('userId'));
+        const activityId = Number(queryParams.get('activityId'));
+        const result = await draw(userId, activityId);
         const {code, info, data} = await result.json();
         if (code != "0000") {
             window.alert("随机抽奖失败 code:" + code + " info:" + info)
@@ -73,8 +73,8 @@ export function LuckyWheelPage() {
     return <div>
         <LuckyWheel
             ref={myLucky}
-            width="450px"
-            height="450px"
+            width="300px"
+            height="300px"
             blocks={blocks}
             prizes={prizes}
             buttons={buttons}
@@ -100,4 +100,3 @@ export function LuckyWheelPage() {
         />
     </div>
 }
-
